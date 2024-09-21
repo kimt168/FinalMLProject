@@ -212,7 +212,7 @@
                 case ('model1'):
                     //call api model1:
                     // Gọi API bằng GET request với các tham số
-                    const url = `http://localhost:8000/predict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
+                    const url = `https://finalmlproject.onrender.com/predict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
 
                     try {
                         const response = await fetch(url);
