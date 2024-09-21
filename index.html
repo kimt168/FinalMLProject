@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Form</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f7fa;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            margin-top: 50px;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #444;
+            margin-bottom: 30px;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-control {
+            background-color: #f0f2f5;
+            border: 1px solid #d9d9d9;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .form-control::placeholder {
+            color: #888;
+        }
+
+        .radio-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f7f9fc;
+            border-radius: 8px;
+            border: 1px solid #d9d9d9;
+        }
+
+        .radio-section label {
+            font-weight: 600;
+            color: #555;
+            margin-right: 20px;
+        }
+
+        .radio-section input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .image-display {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f7f9fc;
+            border-radius: 10px;
+            border: 1px solid #d9d9d9;
+        }
+
+        .model-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f0f2f5;
+            border-radius: 10px;
+            display: none;
+            text-align: center;
+            color: #333;
+            border: 1px solid #d9d9d9;
+        }
+
+        .btn-predict {
+            margin-top: 20px;
+            padding: 15px;
+            width: 100%;
+            font-size: 1.2rem;
+            background-color: #007bff;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 700;
+            transition: 0.3s;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-predict:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <!-- Form Section -->
+            <div class="col-md-6">
+                <h2>Prediction Form</h2>
+                <div class="input-section">
+                    <div class="form-group">
+                        <label for="input1">Input 1</label>
+                        <input type="text" id="input1" class="form-control" placeholder="Enter value 1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="input2">Input 2</label>
+                        <input type="text" id="input2" class="form-control" placeholder="Enter value 2" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="input3">Input 3</label>
+                        <input type="text" id="input3" class="form-control" placeholder="Enter value 3" required>
+                    </div>
+                </div>
+
+                <!-- Radio Button Section -->
+                <div class="radio-section">
+                    <h5>Select Model</h5>
+                    <label><input type="radio" name="model" value="model1" onchange="changeImage('model1.jpg')" checked>
+                        Model 1</label>
+                    <label><input type="radio" name="model" value="model2"
+                            onchange="changeImage('https://th.bing.com/th/id/OIP.8wqVRdLpUztwQ8Dn-nuf6QHaFS?w=672&h=480&rs=1&pid=ImgDetMain')">
+                        Model 2</label>
+                    <label><input type="radio" name="model" value="model3"
+                            onchange="changeImage('https://th.bing.com/th/id/OIP.lho8empPtVs07qQQe9-xLwHaGh?rs=1&pid=ImgDetMain')">
+                        Model 3</label>
+                    <label><input type="radio" name="model" value="model4"
+                            onchange="changeImage('https://th.bing.com/th/id/OIP.l7bENh744JxPPqUpq722lwHaFS?w=1344&h=960&rs=1&pid=ImgDetMain')">
+                        Model 4</label>
+                </div>
+
+                <!-- Predict Button -->
+                <button class="btn btn-predict" onclick="makePrediction()">Predict</button>
+
+                <!-- Result Section -->
+                <div class="result" id="result">
+                    <h4>Prediction Result:</h4>
+                    <p id="prediction-output"></p>
+                </div>
+            </div>
+
+            <!-- Image Section -->
+            <div class="col-md-6 image-display">
+                <img id="model-image" class="model-image"
+                    src="https://th.bing.com/th/id/OIP.h4IcU6NUr__fjwA-P4atrAHaFh?rs=1&pid=ImgDetMain"
+                    alt="Model Image">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Change Image Based on Selected Model
+        function changeImage(imageSrc) {
+            document.getElementById('model-image').src = imageSrc;
+        }
+
+        // Simulate API Call for Prediction
+        async function makePrediction() {
+            // Get input values
+            const input1 = document.getElementById('input1').value;
+            const input2 = document.getElementById('input2').value;
+            const input3 = document.getElementById('input3').value;
+            const selectedModel = document.querySelector('input[name="model"]:checked').value;
+
+            // Simple validation
+            if (input1 === '' || input2 === '' || input3 === '') {
+                alert("Please fill out all fields");
+                return;
+            }
+
+            switch (selectedModel) {
+                case ('model1'):
+                    //call api model1:
+                    // Gọi API bằng GET request với các tham số
+                    const url = `http://localhost:8000/predict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
+
+                    try {
+                        const response = await fetch(url);
+                        const data = await response.json();
+                        var prediction = "Prediction using " + selectedModel + ": "+ data.salesPrice
+                    } catch (error) {
+                        console.error("Error:", error);
+                    }
+                    break;
+                case ('model2'):
+                    //call api model1:
+                    break;
+                case ('model3'):
+                    //call api model1:
+                    break;
+                case ('model4'):
+                    //call api model1:
+                    break;
+            }
+            // Simulate API response (fake prediction)
+
+            // Display result
+            document.getElementById('prediction-output').innerText = prediction;
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
