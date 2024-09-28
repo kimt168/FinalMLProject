@@ -140,16 +140,16 @@
                 <h2>Prediction Form</h2>
                 <div class="input-section">
                     <div class="form-group">
-                        <label for="input1">Input 1</label>
-                        <input type="text" id="input1" class="form-control" placeholder="Enter value 1" required>
+                        <label for="input1">TV Ad Budget ($)</label>
+                        <input type="text" id="input1" class="form-control" placeholder="Enter value" required>
                     </div>
                     <div class="form-group">
-                        <label for="input2">Input 2</label>
-                        <input type="text" id="input2" class="form-control" placeholder="Enter value 2" required>
+                        <label for="input2">Radio Ad Budget ($)</label>
+                        <input type="text" id="input2" class="form-control" placeholder="Enter value" required>
                     </div>
                     <div class="form-group">
-                        <label for="input3">Input 3</label>
-                        <input type="text" id="input3" class="form-control" placeholder="Enter value 3" required>
+                        <label for="input3">Newspaper Ad Budget ($)</label>
+                        <input type="text" id="input3" class="form-control" placeholder="Enter value" required>
                     </div>
                 </div>
 
@@ -157,16 +157,16 @@
                 <div class="radio-section">
                     <h5>Select Model</h5>
                     <label><input type="radio" name="model" value="model1" onchange="changeImage('model1.jpg')" checked>
-                        Model 1</label>
+                        Stacking</label>
                     <label><input type="radio" name="model" value="model2"
                             onchange="changeImage('https://th.bing.com/th/id/OIP.8wqVRdLpUztwQ8Dn-nuf6QHaFS?w=672&h=480&rs=1&pid=ImgDetMain')">
-                        Model 2</label>
+                        Rigde</label>
                     <label><input type="radio" name="model" value="model3"
                             onchange="changeImage('https://th.bing.com/th/id/OIP.lho8empPtVs07qQQe9-xLwHaGh?rs=1&pid=ImgDetMain')">
-                        Model 3</label>
+                        Neural Netwoking</label>
                     <label><input type="radio" name="model" value="model4"
                             onchange="changeImage('https://th.bing.com/th/id/OIP.l7bENh744JxPPqUpq722lwHaFS?w=1344&h=960&rs=1&pid=ImgDetMain')">
-                        Model 4</label>
+                            Linear regression</label>
                 </div>
 
                 <!-- Predict Button -->
@@ -180,11 +180,11 @@
             </div>
 
             <!-- Image Section -->
-            <div class="col-md-6 image-display">
+            <!-- <div class="col-md-6 image-display">
                 <img id="model-image" class="model-image"
                     src="https://th.bing.com/th/id/OIP.h4IcU6NUr__fjwA-P4atrAHaFh?rs=1&pid=ImgDetMain"
                     alt="Model Image">
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -201,7 +201,7 @@
             const input2 = document.getElementById('input2').value;
             const input3 = document.getElementById('input3').value;
             const selectedModel = document.querySelector('input[name="model"]:checked').value;
-
+            let url = ''
             // Simple validation
             if (input1 === '' || input2 === '' || input3 === '') {
                 alert("Please fill out all fields");
@@ -212,24 +212,59 @@
                 case ('model1'):
                     //call api model1:
                     // Gọi API bằng GET request với các tham số
-                    const url = `https://finalmlproject.onrender.com/predict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
+                    url = `http://127.0.0.1:8000/predict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
 
                     try {
                         const response = await fetch(url);
                         const data = await response.json();
-                        var prediction = "Prediction using " + selectedModel + ": "+ data.salesPrice
+                        var prediction = "Prediction using Stacking: " + data.salesPrice;
+                        changeImage("https://th.bing.com/th/id/OIP.l7bENh744JxPPqUpq722lwHaFS?w=1344&h=960&rs=1&pid=ImgDetMain")
+
                     } catch (error) {
                         console.error("Error:", error);
                     }
                     break;
                 case ('model2'):
-                    //call api model1:
+                    //call api model2:
+                    url = `http://127.0.0.1:8000/ridgepredict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
+
+                    try {
+                        const response = await fetch(url);
+                        const data = await response.json();
+                        var prediction = "Prediction using Ridge: " + data.salesPrice;
+                        changeImage("https://th.bing.com/th/id/OIP.l7bENh744JxPPqUpq722lwHaFS?w=1344&h=960&rs=1&pid=ImgDetMain")
+
+                    } catch (error) {
+                        console.error("Error:", error);
+                    }
                     break;
                 case ('model3'):
                     //call api model1:
+                    url = `http://127.0.0.1:8000/neuralpredict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
+
+                    try {
+                        const response = await fetch(url);
+                        const data = await response.json();
+                        var prediction = "Prediction using Neural Networking: " + data.salesPrice;
+                        changeImage("https://th.bing.com/th/id/OIP.l7bENh744JxPPqUpq722lwHaFS?w=1344&h=960&rs=1&pid=ImgDetMain")
+
+                    } catch (error) {
+                        console.error("Error:", error);
+                    }
                     break;
                 case ('model4'):
                     //call api model1:
+                    url = `http://127.0.0.1:8000/linearpredict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
+
+                    try {
+                        const response = await fetch(url);
+                        const data = await response.json();
+                        var prediction = "Prediction using " + selectedModel + ": " + data.salesPrice;
+                        changeImage("https://th.bing.com/th/id/OIP.l7bENh744JxPPqUpq722lwHaFS?w=1344&h=960&rs=1&pid=ImgDetMain")
+
+                    } catch (error) {
+                        console.error("Error:", error);
+                    }
                     break;
             }
             // Simulate API response (fake prediction)
