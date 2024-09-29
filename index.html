@@ -212,7 +212,7 @@
                 case ('model1'):
                     //call api model1:
                     // Gọi API bằng GET request với các tham số
-                    url = `http://127.0.0.1:8000/predict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
+                    url = `https://adspredict.onrender.com/predict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
 
                     try {
                         const response = await fetch(url);
@@ -226,7 +226,7 @@
                     break;
                 case ('model2'):
                     //call api model2:
-                    url = `http://127.0.0.1:8000/ridgepredict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
+                    url = `https://adspredict.onrender.com/ridgepredict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
 
                     try {
                         const response = await fetch(url);
@@ -240,7 +240,7 @@
                     break;
                 case ('model3'):
                     //call api model1:
-                    url = `http://127.0.0.1:8000/neuralpredict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
+                    url = `https://adspredict.onrender.com/neuralpredict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
 
                     try {
                         const response = await fetch(url);
@@ -254,7 +254,7 @@
                     break;
                 case ('model4'):
                     //call api model1:
-                    url = `http://127.0.0.1:8000/linearpredict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
+                    url = `https://adspredict.onrender.com/linearpredict?tvadp=${input1}&radadp=${input2}&newsadp=${input3}`;
 
                     try {
                         const response = await fetch(url);
