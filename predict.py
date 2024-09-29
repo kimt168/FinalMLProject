@@ -1,35 +1,31 @@
 import joblib
 import numpy as np
-from fastapi.encoders import jsonable_encoder
-from fastapi import HTTPException
 import pandas as pd
 import os
-
+from fastapi import FastAPI, HTTPException
 def predict_from_input(tv_budget: float, radio_budget: float, newspaper_budget: float) -> float:
-    try:
-        # 1. Tạo mảng dữ liệu từ các giá trị đầu vào
-        input_data = np.array([[tv_budget, radio_budget, newspaper_budget]])
+    # 1. Load các mô hình đã train
+    meta_model = joblib.load('stacked_meta_model_best_alpha.pkl')
+    linear_model = joblib.load('Data/linear_regression_model.pkl')
+    mlp_model = joblib.load('mlp_regression1_model.pkl')
+    ridge_model = joblib.load('ridge_regression_model_new2.pkl')
+
+    # 2. Tạo mảng dữ liệu từ các giá trị đầu vào
+    # Ví dụ: giá trị đầu vào là một danh sách [tv_budget, radio_budget, newspaper_budget]
+    input_data_df = np.array([[tv_budget, radio_budget, newspaper_budget]])
+
     
-        # 2. Load tập dữ liệu huấn luyện (để lấy thông tin cột)
-        train_X = pd.read_csv('./Data/Train_X_std.csv')
-        
-        # Tạo DataFrame từ input_data với các cột tương ứng với train_X
-        input_data_df = pd.DataFrame(input_data, columns=train_X.columns)
 
-        # 3. Load mô hình stacking đã huấn luyện từ file .pkl
-        stacking_model = joblib.load('stacked_meta_model.pkl')
+    # 3. Dự đoán từ các mô hình cơ sở (Linear, MLP, Ridge)
+    pred_linear = linear_model.predict(input_data_df)
+    pred_mlp = mlp_model.predict(input_data_df)
+    pred_ridge = ridge_model.predict(input_data_df)
 
-        # 4. Dự đoán kết quả
-        prediction = stacking_model.predict(input_data_df)
+    # 4. Stack các dự đoán từ mô hình cơ sở
+    meta_input = np.column_stack((pred_linear, pred_mlp, pred_ridge))
 
-        print("Dự đoán kết quả:", prediction)
+    # 5. Dự đoán với mô hình meta đã huấn luyện
+    prediction = meta_model.predict(meta_input)
 
-    except FileNotFoundError as e:
-        # Trả về lỗi nếu file không tồn tại
-        raise HTTPException(status_code=404, detail=f"File not found: {str(e)}")
-    except Exception as e:
-        # Trả về lỗi khác
-        raise HTTPException(status_code=500, detail=f"Error during prediction: {str(e)}")
-    
-    # Trả về kết quả dự đoán (lấy giá trị đầu tiên từ mảng dự đoán)
+    # 6. Trả về kết quả dự đoán (lấy giá trị đầu tiên từ mảng dự đoán)
     return float(prediction[0])

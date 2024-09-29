@@ -245,7 +245,7 @@
                     try {
                         const response = await fetch(url);
                         const data = await response.json();
-                        var prediction = "Prediction using Neural Networking: " + data.salesPrice;
+                        var prediction = "Prediction using Neural Network: " + data.salesPrice;
                         changeImage("https://th.bing.com/th/id/OIP.l7bENh744JxPPqUpq722lwHaFS?w=1344&h=960&rs=1&pid=ImgDetMain")
 
                     } catch (error) {
@@ -259,7 +259,7 @@
                     try {
                         const response = await fetch(url);
                         const data = await response.json();
-                        var prediction = "Prediction using " + selectedModel + ": " + data.salesPrice;
+                        var prediction = "Prediction using Linear Regression: " + data.salesPrice;
                         changeImage("https://th.bing.com/th/id/OIP.l7bENh744JxPPqUpq722lwHaFS?w=1344&h=960&rs=1&pid=ImgDetMain")
 
                     } catch (error) {
