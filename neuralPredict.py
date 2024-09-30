@@ -3,7 +3,7 @@ import numpy as np
 
 def neuralpredict(tv_budget: float, radio_budget: float, newspaper_budget: float) -> float:
     # Tải mô hình từ tệp pkl bằng joblib
-    model = joblib.load('mlp_regression1_model.pkl')
+    model = joblib.load('mlp_regression2_model.pkl')
     
     # Tạo mảng dữ liệu từ các giá trị đầu vào
     input_data = np.array([[tv_budget, radio_budget, newspaper_budget]])
